@@ -41,6 +41,7 @@ function Bijin(props) {
       <a id="alink" target="_blank"></a>
       <br />
       <br />
+      <br />
       <CopyButton />
     </div>
   );
