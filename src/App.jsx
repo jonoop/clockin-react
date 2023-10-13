@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import queryString from "query-string";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 
@@ -69,17 +69,35 @@ const datas = [
     name: "01俊彪02培成03世坤04登龙05勃君06祈泽07雅珍08荣忠09时明10许婷11愉芳12俊玲13陈娟14王昕15裕玲16凤波17佳俊18恩宝19義臣20莉莎",
     id: 11,
   },
+  {
+    router: "tag",
+    id: 12,
+  },
 ];
-
 function App() {
   const [dataObj] = datas.filter(
     (data) => data.router === queryString.parse(window.location.search).id
   );
   return (
     <>
-      <Bijin title={dataObj.title} name={dataObj.name} />
+      {dataObj.router === "tag" ? (
+        <Tag />
+      ) : (
+        <Bijin title={dataObj.title} name={dataObj.name} />
+      )}
     </>
   );
+}
+function Tag() {
+  const [res, setRes] = useState("");
+  useEffect(() => {
+    fetch(
+      `https://dy.tagsub.net/api/v1/client/subscribe?token=8637c041386f21f5bc8f362c9db3eec0`
+    )
+      .then((res) => res.text())
+      .then((data) => setRes(atob(data)));
+  }, []);
+  return <>{res}</>;
 }
 
 function Bijin({ title, name }) {
